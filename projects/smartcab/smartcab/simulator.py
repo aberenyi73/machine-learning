@@ -345,7 +345,7 @@ class Simulator(object):
             agent_color = self.colors[agent.color]
 
             if hasattr(agent, '_sprite') and agent._sprite is not None:
-                # Draw agent sprite (image), properly rotated
+                # Draw agent sprite (imag), properly rotated
                 rotated_sprite = agent._sprite if state['heading'] == (1, 0) else self.pygame.transform.rotate(agent._sprite, 180 if state['heading'][0] == -1 else state['heading'][1] * -90)
                 self.screen.blit(rotated_sprite,
                     self.pygame.rect.Rect(agent_pos[0] - agent._sprite_size[0] / 2, agent_pos[1] - agent._sprite_size[1] / 2,
