@@ -1,0 +1,256 @@
+/-----------------------------------------
+| State-action rewards from Q-Learning
+\-----------------------------------------
+
+('left', frozenset([('right', 'forward'), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.45
+
+('right', frozenset([('oncoming', None), ('light', 'red'), ('left', None), ('right', 'left')]))
+ -- None : 0.57
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('oncoming', None), ('left', None), ('light', 'green'), ('right', 'left')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.63
+
+('left', frozenset([('oncoming', 'forward'), ('light', 'red'), ('right', 'right'), ('left', None)]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -5.37
+
+('left', frozenset([('right', None), ('oncoming', None), ('light', 'red'), ('left', None)]))
+ -- None : 2.64
+ -- forward : -9.07
+ -- right : 0.42
+ -- left : -9.99
+
+('forward', frozenset([('right', None), ('oncoming', 'right'), ('light', 'red'), ('left', None)]))
+ -- None : 1.41
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('right', frozenset([('oncoming', 'left'), ('right', None), ('light', 'red'), ('left', None)]))
+ -- None : 0.95
+ -- forward : -5.46
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('right', None), ('oncoming', None), ('light', 'red'), ('left', 'right')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.69
+ -- left : 0.00
+
+('left', frozenset([('oncoming', None), ('light', 'red'), ('left', None), ('right', 'left')]))
+ -- None : 0.00
+ -- forward : -5.38
+ -- right : 0.00
+ -- left : 0.00
+
+('right', frozenset([('right', None), ('oncoming', 'forward'), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 1.25
+ -- left : 0.00
+
+('left', frozenset([('oncoming', 'left'), ('right', None), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.19
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('right', None), ('left', None), ('oncoming', 'right'), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.67
+ -- left : 0.00
+
+('right', frozenset([('right', None), ('oncoming', None), ('light', 'red'), ('left', None)]))
+ -- None : 0.30
+ -- forward : -9.03
+ -- right : 1.56
+ -- left : -10.53
+
+('forward', frozenset([('right', None), ('left', None), ('oncoming', 'right'), ('light', 'green')]))
+ -- None : -2.70
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('forward', frozenset([('right', 'forward'), ('oncoming', None), ('light', 'red'), ('left', None)]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -20.09
+
+('right', frozenset([('right', 'forward'), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.65
+ -- left : 0.00
+
+('forward', frozenset([('oncoming', None), ('light', 'red'), ('right', 'right'), ('left', None)]))
+ -- None : 0.00
+ -- forward : -4.88
+ -- right : 0.00
+ -- left : 0.00
+
+('right', frozenset([('oncoming', None), ('left', None), ('light', 'green'), ('right', 'left')]))
+ -- None : -2.67
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.01
+
+('forward', frozenset([('right', None), ('oncoming', 'forward'), ('light', 'red'), ('left', None)]))
+ -- None : 1.12
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -5.11
+
+('forward', frozenset([('oncoming', None), ('light', 'red'), ('right', 'right'), ('left', 'left')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.43
+ -- left : 0.00
+
+('forward', frozenset([('right', None), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : -4.92
+ -- forward : 2.35
+ -- right : 0.74
+ -- left : 0.58
+
+('left', frozenset([('right', None), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : -4.72
+ -- forward : 0.31
+ -- right : 0.87
+ -- left : 1.60
+
+('right', frozenset([('oncoming', 'left'), ('right', None), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 1.09
+ -- right : 0.00
+ -- left : 0.00
+
+('forward', frozenset([('oncoming', None), ('left', None), ('light', 'green'), ('right', 'left')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 1.22
+
+('forward', frozenset([('right', None), ('oncoming', None), ('light', 'red'), ('left', 'left')]))
+ -- None : 0.83
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('forward', frozenset([('right', None), ('oncoming', None), ('light', 'red'), ('left', None)]))
+ -- None : 1.64
+ -- forward : -10.30
+ -- right : 0.16
+ -- left : -9.90
+
+('left', frozenset([('right', 'forward'), ('oncoming', None), ('left', 'left'), ('light', 'green')]))
+ -- None : -2.57
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.90
+
+('forward', frozenset([('right', 'forward'), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 1.14
+ -- right : 0.00
+ -- left : 0.00
+
+('right', frozenset([('right', None), ('oncoming', None), ('left', 'forward'), ('light', 'red')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : -10.09
+ -- left : 0.00
+
+('right', frozenset([('oncoming', None), ('left', 'forward'), ('light', 'red'), ('right', 'left')]))
+ -- None : 0.62
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('right', None), ('oncoming', None), ('left', 'forward'), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : -0.41
+ -- right : 0.37
+ -- left : 0.00
+
+('forward', frozenset([('oncoming', 'forward'), ('light', 'red'), ('left', None), ('right', 'left')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.59
+ -- left : 0.00
+
+('forward', frozenset([('right', None), ('oncoming', 'forward'), ('left', None), ('light', 'green')]))
+ -- None : -2.81
+ -- forward : 1.22
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('right', 'forward'), ('oncoming', None), ('light', 'red'), ('left', None)]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.03
+ -- left : 0.00
+
+('left', frozenset([('oncoming', 'left'), ('right', None), ('light', 'red'), ('left', None)]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.03
+ -- left : 0.00
+
+('right', frozenset([('oncoming', None), ('left', None), ('right', 'right'), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.48
+ -- left : 0.00
+
+('right', frozenset([('right', None), ('oncoming', 'forward'), ('light', 'red'), ('left', None)]))
+ -- None : 0.44
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : 0.00
+
+('left', frozenset([('right', None), ('oncoming', 'forward'), ('left', None), ('light', 'green')]))
+ -- None : -2.19
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -10.43
+
+('right', frozenset([('right', None), ('oncoming', None), ('left', None), ('light', 'green')]))
+ -- None : -5.30
+ -- forward : 0.51
+ -- right : 1.67
+ -- left : 0.75
+
+('right', frozenset([('right', None), ('oncoming', None), ('light', 'green'), ('left', 'right')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.65
+ -- left : 0.00
+
+('left', frozenset([('right', None), ('oncoming', 'forward'), ('left', 'forward'), ('light', 'green')]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -10.12
+
+('right', frozenset([('oncoming', None), ('light', 'red'), ('right', 'right'), ('left', None)]))
+ -- None : 0.00
+ -- forward : 0.00
+ -- right : 0.00
+ -- left : -5.23
+
