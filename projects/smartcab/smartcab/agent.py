@@ -37,13 +37,13 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Update epsilon using a decay function of your choice
-        self.epsilon = self.epsilon - 0.05
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
-
-        if not self.learning:
+        if testing:
             self.epsilon = 0
             self.alpha = 0
+        else:
+            self.epsilon = self.epsilon - 0.05
 
         return None
 
@@ -68,7 +68,9 @@ class LearningAgent(Agent):
         
         # Set 'state' as a tuple of relevant data for the agent        
         #state = (waypoint, frozenset(inputs.items()), deadline)
-        state = (waypoint, frozenset(inputs.items()))  # Don't use deadline as it may result in unsafe driving
+        state = (waypoint, tuple(sorted(inputs.items())))  # Don't use deadline as it may result in unsafe driving
+        #state = (waypoint, frozenset(inputs.items()))  # Don't use deadline as it may result in unsafe driving
+
 
         return state
 
