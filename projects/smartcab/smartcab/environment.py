@@ -103,7 +103,7 @@ class Environment(object):
         agent.primary_agent = True
         self.enforce_deadline = enforce_deadline
 
-    def reset(self, testing=False):
+    def reset(self, testing=False, trial=1):
         """ This function is called at the beginning of a new trial. """
 
         self.done = False
@@ -165,7 +165,7 @@ class Environment(object):
                     del positions[intersection] # Delete the intersection altogether
 
     
-            agent.reset(destination=(destination if agent is self.primary_agent else None), testing=testing)
+            agent.reset(destination=(destination if agent is self.primary_agent else None), testing=testing, trial=trial)
             if agent is self.primary_agent:
                 # Reset metrics for this trial (step data will be set during the step)
                 self.trial_data['testing'] = testing
@@ -421,7 +421,7 @@ class Agent(object):
         self.color = 'white'
         self.primary_agent = False
 
-    def reset(self, destination=None, testing=False):
+    def reset(self, destination=None, testing=False, trial=1):
         pass
 
     def update(self):

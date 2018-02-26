@@ -154,7 +154,7 @@ class Simulator(object):
             print "\-------------------------"
             print 
 
-            self.env.reset(testing)
+            self.env.reset(testing, trial)
             self.current_time = 0.0
             self.last_updated = 0.0
             self.start_time = time.time()

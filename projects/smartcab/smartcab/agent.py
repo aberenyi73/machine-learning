@@ -23,9 +23,10 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
+        self.trial_step = -1
 
 
-    def reset(self, destination=None, testing=False):
+    def reset(self, destination=None, testing=False, trial=1):
         """ The reset function is called at the beginning of each trial.
             'testing' is set to True if testing trials are being used
             once training trials have completed. """
@@ -43,7 +44,21 @@ class LearningAgent(Agent):
             self.epsilon = 0
             self.alpha = 0
         else:
-            self.epsilon = self.epsilon - 0.05
+            self.trial_step += 1
+            # self.epsilon = 2 / (1 + math.exp(0.005 * (trial - 1))) # A+ A+
+
+            self.epsilon = 0.96 / (1 + math.exp(0.006 * (trial - 1100))) + 0.04 # A+ A+
+            # self.epsilon = 1 / (1 + math.exp (0.01 * (trial - 311))) + 0.045
+
+
+            #self.epsilon = self.epsilon - 0.0026 OK: S:D; R:A+
+
+            #self.epsilon = math.pow(0.9, trial-1) # not good
+            #self.epsilon = math.cos(0.02 * (trial - 1))  # not good
+            #self.epsilon = math.cos(0.03 * (trial - 1))  # not good
+
+            #self.epsilon = math.exp(-0.1 * (trial - 1))
+            #self.alpha = 1.0 / trial
 
         return None
 
@@ -67,10 +82,9 @@ class LearningAgent(Agent):
         # With the hand-engineered features, this learning process gets entirely negated.
         
         # Set 'state' as a tuple of relevant data for the agent        
-        #state = (waypoint, frozenset(inputs.items()), deadline)
+        #state = (waypoint, tuple(sorted(inputs.items())), deadline)
         state = (waypoint, tuple(sorted(inputs.items())))  # Don't use deadline as it may result in unsafe driving
-        #state = (waypoint, frozenset(inputs.items()))  # Don't use deadline as it may result in unsafe driving
-
+        #state = (tuple(sorted(inputs.items())))  # Don't use deadline as it may result in unsafe driving
 
         return state
 
@@ -146,7 +160,8 @@ class LearningAgent(Agent):
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
         if self.learning:
             q = self.Q[state][action]
-            self.Q[state][action] = self.alpha * reward + (1.0 - self.alpha) * q
+            q = self.alpha * reward + (1.0 - self.alpha) * q
+            self.Q[state][action] = q
 
         return
 
@@ -165,7 +180,7 @@ class LearningAgent(Agent):
         return
         
 
-def run():
+def run(display=False):
     """ Driving function for running the simulation. 
         Press ESC to close the simulation, or [SPACE] to pause the simulation. """
 
@@ -199,7 +214,7 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, display=True, update_delay=0.01, log_metrics=True)
+    sim = Simulator(env, display=display, update_delay=.001, log_metrics=False, optimized=True)
     
     ##############
     # Run the simulator
@@ -208,6 +223,20 @@ def run():
     #   n_test     - discrete number of testing trials to perform, default is 0
     sim.run(n_test=10)
 
+def getopts(argv):
+    opts = {}  # Empty dictionary to store key-value pairs.
+    while argv:  # While there are arguments left to parse...
+        if argv[0][0] == '-':  # Found a "-name value" pair.
+            opts[argv[0]] = argv[1]  # Add key and value to the dictionary.
+        argv = argv[1:]  # Reduce the argument list by copying it starting from index 1.
+    return opts
 
 if __name__ == '__main__':
-    run()
+    from sys import argv
+
+    disp = False
+    myargs = getopts(argv)
+    if '-display' in myargs:  # Example usage.
+        disp = bool(myargs['-display'])
+
+    run(disp)
