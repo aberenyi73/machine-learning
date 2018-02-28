@@ -131,7 +131,7 @@ class Simulator(object):
             if not testing:
                 if total_trials > 20: # Must complete minimum 20 training trials
                     if a.learning:
-                        if a.epsilon < tolerance: # assumes epsilon decays to 0
+                        if a.epsilon < tolerance: # assumes epsilon decays to less than tolerance
                             testing = True
                             trial = 1
                     else:
