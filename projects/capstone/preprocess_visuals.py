@@ -29,7 +29,7 @@ def ModelComplexityRF(X, y, crit='entropy', p_range=[50, 80, 90], max_depth=1):
     warnings.filterwarnings('always')
     
     # Calculate the training and testing scores
-    clf = RandomForestClassifier(criterion=crit, class_weight='balanced', random_state=7, max_depth=max_depth)
+    clf = RandomForestClassifier(criterion=crit, class_weight='balanced', random_state=7, max_depth=max_depth, max_features=10)
     
     ftwo_scorer = make_scorer(fbeta_score, beta=2)
     train_scores, test_scores = validation_curve(clf, X, y, \
@@ -45,7 +45,7 @@ def ModelComplexityRF(X, y, crit='entropy', p_range=[50, 80, 90], max_depth=1):
     test_mean = np.mean(test_scores, axis=1)
     test_std = np.std(test_scores, axis=1)
     mx = np.argmax(test_mean)
-    print("Test score for param=", p_range[mx], "recall=", 
+    print("Test score for param=", p_range[mx], "max_depth=", max_depth, "recall=", 
           round(test_mean[mx], 3), "std=", round(test_std[mx],3))
     
     # Plot the validation curve
@@ -388,7 +388,7 @@ def dummies(df, col, prefix):
     return df
 
 # preprocess
-def preprocess(df, impute_strategy='mean'):
+def preprocess(df, impute_strategy='mean', impute=True):
     pd.options.mode.chained_assignment = None  # default='warn'
 
     warnings.filterwarnings('always')
@@ -439,9 +439,10 @@ def preprocess(df, impute_strategy='mean'):
                     'mths_since_last_major_derog']
     df.drop(columns=drop_cols, inplace=True)
     
-    imp = Imputer(missing_values='NaN', strategy=impute_strategy, axis=0)
-    imp.fit(df)
-    df = pd.DataFrame(data=imp.transform(df) , columns=df.columns)
+    if impute:
+        imp = Imputer(missing_values='NaN', strategy=impute_strategy, axis=0)
+        imp.fit(df)
+        df = pd.DataFrame(data=imp.transform(df) , columns=df.columns)
     df = df.astype(np.float32)
 
     return df
@@ -457,4 +458,54 @@ def selectKBest(X, y, k):
     colnames_selected = [X.columns[i] for i in indices_selected]
     X = X[colnames_selected]
     return X
+
+def remove_outliers(df):
+    df = df[df.delinq_2yrs < 5]
+    df = df[df.open_acc < 30]
+    df = df[df.pub_rec < 10]
+    df = df[df.revol_bal > 2 ] 
+    df = df[df.revol_bal < 1000000 ] 
+    df = df[df.total_acc < 60]
+    df = df[df.tot_coll_amt < 200000 ] # outlier!
+    df = df[df.tot_cur_bal < 200000]
+    df = df[df.open_act_il < 10]
+    df = df[df.open_il_24m < 10]
+    df = df[df.mths_since_rcnt_il < 200]
+    df = df[df.total_bal_il < 200000]
+    df = df[df.il_util < 200]
+    df = df[df.open_rv_12m < 10]
+    df = df[df.open_rv_24m < 20]
+    df = df[df.max_bal_bc < 100000]
+    df = df[df.total_rev_hi_lim < 500000 ]
+    df = df[df.inq_fi < 15]
+    df = df[df.total_cu_tl < 10]
+    df = df[df.inq_last_12m < 10]
+    df = df[df.acc_open_past_24mths < 20]
+    df = df[df.avg_cur_bal < 100000]
+    df = df[df.bc_open_to_buy < 50000]
+    df = df[df.delinq_amnt < 10000]
+    df = df[df.mo_sin_old_il_acct < 300]
+    df = df[df.mo_sin_old_rev_tl_op < 600]
+    df = df[df.mo_sin_rcnt_rev_tl_op < 100]
+    df = df[df.mo_sin_rcnt_tl < 50]
+    df = df[df.mort_acc < 10]
+    df = df[df.mths_since_recent_bc < 200]
+    df = df[df.num_accts_ever_120_pd < 10]
+    df = df[df.num_actv_bc_tl < 15]
+    df = df[df.num_actv_rev_tl < 20]
+    df = df[df.num_bc_sats < 20]
+    df = df[df.num_bc_tl < 30]
+    df = df[df.num_il_tl < 40]
+    df = df[df.num_op_rev_tl < 30]
+    df = df[df.num_rev_accts < 60]
+    df = df[df.num_rev_tl_bal_gt_0 < 20]
+    df = df[df.num_sats < 30]
+    df = df[df.num_tl_op_past_12m < 10]
+    df = df[df.pct_tl_nvr_dlq > 50]
+    df = df[df.tot_hi_cred_lim < 200000]
+    df = df[df.total_bal_ex_mort < 500000]
+    df = df[df.total_bc_limit < 100000]
+    df = df[df.total_il_high_credit_limit < 400000]
+    return df
+
 
