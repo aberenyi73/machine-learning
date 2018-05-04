@@ -282,6 +282,9 @@ def percent_col(df, col, figsize=(8, 6)):
     plt.show()    
 
 def col_stats(df):
+    '''
+    Display null percent, min, max median, squew and unique count statistics on all features.
+    '''
     nsd = pd.DataFrame()
     nsd['dtypes'] = df.dtypes
     ns = df.isnull().sum()
@@ -389,6 +392,9 @@ def dummies(df, col, prefix):
 
 # preprocess
 def preprocess(df, impute_strategy='mean', impute=True):
+    '''
+    Data cleanup steps; fill null valuess, remove some outliers, drop columns and impute mean.
+    '''
     pd.options.mode.chained_assignment = None  # default='warn'
 
     warnings.filterwarnings('always')
